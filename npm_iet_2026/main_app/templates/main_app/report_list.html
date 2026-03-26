@@ -1,0 +1,18 @@
+<h1>Daftar Laporan - IET City</h1>
+
+<a href="/add/">Tambah Laporan</a>
+
+<ul>
+    {% for report in reports %}
+        <li>
+            <strong>{{ report.title }}</strong><br>
+            {{ report.description }}<br>
+            Lokasi: {{ report.location }}<br>
+            Status: {{ report.status }}
+
+            <a href="/update/{{ report.id }}/">Edit</a> |
+            <a href="/delete/{{ report.id }}/">Hapus</a>
+        </li>
+        <hr>
+    {% endfor %}
+</ul>

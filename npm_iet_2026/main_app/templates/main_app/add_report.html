@@ -1,0 +1,9 @@
+<h1>Tambah Laporan - IET City</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+<a href="/reports/">Lihat Laporan</a>
