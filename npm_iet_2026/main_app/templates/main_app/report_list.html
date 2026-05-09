@@ -1,30 +1,139 @@
-<h1>Daftar Laporan - IET City</h1>
+{% extends 'base.html' %}
 
-<a href="/add/">Tambah Laporan</a>
+{% block title %}Daftar Laporan IET City{% endblock %}
 
-<ul>
-    {% for report in reports %}
-        <li>
-            <strong>{{ report.title }}</strong><br>
-            {{ report.description }}<br>
-            Lokasi: {{ report.location }}<br>
-            Status: {{ report.status }}
+{% block content %}
+<h2 class="mb-4">Daftar Laporan Masyarakat</h2>
 
-            <form method="post" action="/status/{{ report.id }}/">
-                {% csrf_token %}
+<div class="row mb-3 align-items-center">
+    <div class="col-md-6">
+        <a href="/add/" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Tambah Laporan</a>
+    </div>
+    <div class="col-md-4 ms-auto">
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="text" id="searchInput" class="form-control" placeholder="Cari laporan...">
+        </div>
+    </div>
+</div>
 
-                {% if report.status == "REPORTED" %}
-                     <button name="status" value="VERIFIED">Verifikasi</button>
-                {% elif report.status == "VERIFIED" %}
-                     <button name="status" value="IN_PROGRESS">Proses</button>
-                {% elif report.status == "IN_PROGRESS" %}
-                     <button name="status" value="RESOLVED">Selesaikan</button>
-                {% endif %}
-            </form>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Judul Laporan</th>
+                <th>Lokasi</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="reportTableBody">
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.title }}</td>
+                <td>{{ report.location }}</td>
+                <td>
+                    {% if report.status == "REPORTED" %} <span class="badge bg-secondary">Reported</span>
+                    {% elif report.status == "VERIFIED" %} <span class="badge bg-primary">Verified</span>
+                    {% elif report.status == "IN_PROGRESS" %} <span class="badge bg-warning text-dark">In Progress</span>
+                    {% elif report.status == "RESOLVED" %} <span class="badge bg-success">Resolved</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary show-detail" data-id="{{ report.id }}">Detail</button>
+                    <a href="/update/{{ report.id }}/" class="btn btn-sm btn-info text-white">Edit</a>
+                    <a href="/delete/{{ report.id }}/" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')">Hapus</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-            <a href="/update/{{ report.id }}/">Edit</a> |
-            <a href="/delete/{{ report.id }}/">Hapus</a>
-        </li>
-        <hr>
-    {% endfor %}
-</ul>
+<div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Detail Laporan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inisialisasi Modal dengan proteksi error
+        const modalElement = document.getElementById('detailModal');
+        let myModal = null;
+        if (typeof bootstrap !== 'undefined' && modalElement) {
+            myModal = new bootstrap.Modal(modalElement);
+        }
+
+        const searchInput = document.getElementById('searchInput');
+        const tableBody = document.getElementById('reportTableBody');
+
+        function getBadge(status) {
+            const colors = {'REPORTED':'bg-secondary','VERIFIED':'bg-primary','IN_PROGRESS':'bg-warning text-dark','RESOLVED':'bg-success'};
+            return `<span class="badge ${colors[status] || 'bg-dark'}">${status}</span>`;
+        }
+
+        // --- Live Search ---
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                fetch(`/search/?q=${this.value}`)
+                .then(res => res.json())
+                .then(data => {
+                    tableBody.innerHTML = '';
+                    data.results.forEach(r => {
+                        tableBody.innerHTML += `
+                            <tr>
+                                <td>${r.title}</td>
+                                <td>${r.location}</td>
+                                <td>${getBadge(r.status)}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary show-detail" data-id="${r.id}">Detail</button>
+                                    <a href="/update/${r.id}/" class="btn btn-sm btn-info text-white">Edit</a>
+                                    <a href="/delete/${r.id}/" class="btn btn-sm btn-danger" onclick="return confirm('Yakin?')">Hapus</a>
+                                </td>
+                            </tr>`;
+                    });
+                });
+            });
+        }
+
+        // --- Detail Modal ---
+        document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.show-detail');
+    if (btn && myModal) {
+        const reportId = btn.getAttribute('data-id');
+        const modalBody = document.getElementById('modalBody');
+        
+        modalBody.innerHTML = '<div class="text-center"><div class="spinner-border text-primary"></div><p>Memuat...</p></div>';
+        myModal.show();
+
+        fetch(`/api/report/${reportId}/`)
+            .then(response => response.json())
+            .then(data => {
+                // Panggil fungsi getBadge yang sudah kita buat sebelumnya
+                const badgeHtml = getBadge(data.status); 
+
+                modalBody.innerHTML = `
+                    <div class="mb-3">
+                        <h5 class="fw-bold">${data.title}</h5>
+                        <div class="mt-2">${badgeHtml}</div> </div>
+                    <hr>
+                    <p><strong><i class="bi bi-geo-alt"></i> Lokasi:</strong> ${data.location}</p>
+                    <p><strong><i class="bi bi-card-text"></i> Deskripsi:</strong></p>
+                    <div class="p-3 bg-light rounded italic">${data.description || 'Tidak ada deskripsi.'}</div>
+                `;
+            })
+            .catch(err => {
+                modalBody.innerHTML = '<div class="alert alert-danger">Gagal memuat data.</div>';
+            });
+    }
+});
+    });
+</script>
+{% endblock %}

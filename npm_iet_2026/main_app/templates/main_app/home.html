@@ -1,59 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>IET City</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
+{% extends 'base.html' %}
 
-        h1 {
-            color: #2c3e50;
-        }
+{% block title %}Home - IET City{% endblock %}
 
-        .container {
-            max-width: 700px;
-        }
+{% block content %}
 
-        .nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #2980b9;
-        }
+<h1>IET City</h1>
 
-        .box {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-        }
-    </style>
-</head>
-<body>
+<p>
+    Platform pelaporan masalah di lingkungan IET, JTI, dan Polinela.
+    Laporkan berbagai kondisi seperti fasilitas rusak, kebersihan, dan keamanan lingkungan kampus.
+</p>
 
-<div class="container">
-    <h1>IET City</h1>
-
-    <p>
-        Platform pelaporan masalah di lingkungan IET, JTI, dan Polinela.
-        Laporkan berbagai kondisi seperti fasilitas rusak, kebersihan, dan keamanan lingkungan kampus.
-    </p>
-
-    <div class="nav">
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/contacts/">Contact</a>
-    </div>
-
-    <div class="box">
-        <h3>Contoh Laporan</h3>
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title">Contoh Laporan</h5>
         <ul>
-            <li>Lampu di Lab Analisis mati</li>
-            <li>Sampah menumpuk di sekitar gedung JTI</li>
-            <li>AC di ruang kelas tidak berfungsi</li>
+            <li>Lampu mati</li>
+            <li>Sampah menumpuk</li>
+            <li>AC rusak</li>
         </ul>
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}

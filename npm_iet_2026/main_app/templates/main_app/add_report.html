@@ -1,9 +1,55 @@
-<h1>Tambah Laporan - IET City</h1>
+{% extends 'base.html' %}
 
-<form method="post">
+{% block title %}Tambah Laporan{% endblock %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/reports/">Reports</a></li>
+    <li class="breadcrumb-item active">Tambah</li>
+  </ol>
+</nav>
+
+<h2 class="mb-4">Tambah Laporan</h2>
+
+<form method="post" onsubmit="handleSubmit(this)">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+
+    <div class="mb-3">
+        <label class="form-label">Judul</label>
+        {{ form.title }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Kategori</label>
+        {{ form.category }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Deskripsi</label>
+        {{ form.description }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Lokasi</label>
+        {{ form.location }}
+    </div>
+
+    <button type="submit" class="btn btn-primary" id="submitBtn">
+        Submit
+    </button>
+
+    <a href="/reports/" class="btn btn-secondary">Kembali</a>
 </form>
 
-<a href="/reports/">Lihat Laporan</a>
+<script>
+function handleSubmit(form) {
+    const btn = document.getElementById('submitBtn');
+    btn.innerText = "Loading...";
+    btn.disabled = true;
+}
+</script>
+
+{% endblock %}

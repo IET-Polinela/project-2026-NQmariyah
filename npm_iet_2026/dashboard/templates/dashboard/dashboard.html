@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Dashboard Statistik IET City</h2>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">Distribusi Status Laporan</div>
+            <div class="card-body">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">Laporan per Kategori</div>
+            <div class="card-body">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-secondary text-white">5 Laporan Terakhir (Reported)</div>
+            <table class="table table-sm" id="reportedTable">
+                <thead><tr><th>Judul</th><th>Lokasi</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">5 Laporan Terakhir (Resolved)</div>
+            <table class="table table-sm" id="resolvedTable">
+                <thead><tr><th>Judul</th><th>Lokasi</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/dashboard/api/data/')
+            .then(res => res.json())
+            .then(data => {
+                // --- Grafik Status ---
+                new Chart(document.getElementById('statusChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.status.labels,
+                        datasets: [{ data: data.status.counts, backgroundColor: ['#6c757d', '#0d6efd', '#ffc107', '#198754'] }]
+                    }
+                });
+
+                // --- Grafik Kategori ---
+                new Chart(document.getElementById('categoryChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.category.labels,
+                        datasets: [{
+                            label: 'Jumlah Laporan',
+                            data: data.category.counts,
+                            backgroundColor: '#198754'
+                        }]
+                    }
+                });
+
+                // Render Tabel Reported
+                const repBody = document.querySelector('#reportedTable tbody');
+                data.reported_latest.forEach(r => {
+                    repBody.innerHTML += `<tr><td>${r.title}</td><td>${r.loc}</td></tr>`;
+                });
+
+                // Render Tabel Resolved
+                const resBody = document.querySelector('#resolvedTable tbody');
+                data.resolved_latest.forEach(r => {
+                    resBody.innerHTML += `<tr><td>${r.title}</td><td>${r.loc}</td></tr>`;
+                });
+            });
+    });
+</script>
+{% endblock %}

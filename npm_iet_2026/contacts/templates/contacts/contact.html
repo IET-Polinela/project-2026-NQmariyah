@@ -1,59 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contact - IET City</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
+{% extends 'base.html' %}
 
-        h1 {
-            color: #2c3e50;
-        }
+{% block title %}Contact - IET City{% endblock %}
 
-        .container {
-            max-width: 700px;
-        }
+{% block content %}
 
-        .nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #2980b9;
-        }
+<!-- 🔷 BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Contact</li>
+  </ol>
+</nav>
 
-        .box {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-        }
-    </style>
-</head>
-<body>
+<h2 class="mb-4">Contact</h2>
 
-<div class="container">
-    <h1>Contact IET City</h1>
+<div class="card">
+    <div class="card-body">
 
-    <div class="nav">
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/contacts/">Contact</a>
-    </div>
+        <h5 class="card-title">Politeknik Negeri Lampung</h5>
 
-    <div class="box">
-        <p>Politeknik Negeri Lampung</p>
-        <p>Program Studi Teknologi Rekayasa Internet</p>
-        <p>Lab Analisis Lt. 2</p>
-        <p>Senin - Jumat, 08.00 - 16.00</p>
+        <p class="mb-1">Program Studi Teknologi Rekayasa Internet</p>
+        <p class="mb-1">Lab Analisis Lt. 2</p>
+        <p class="mb-3">Senin - Jumat, 08.00 - 16.00</p>
 
         <hr>
 
         <p>
-            Hubungi kami untuk informasi terkait sistem pelaporan 
+            Hubungi kami untuk informasi lebih lanjut terkait sistem pelaporan 
             <strong>IET City</strong>.
         </p>
+
+        <!-- Optional UX -->
+        <div class="mt-3">
+            <span class="badge bg-primary">Email</span>
+            <span class="badge bg-secondary">Office</span>
+            <span class="badge bg-success">Support</span>
+        </div>
+
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}

@@ -11,7 +11,8 @@ urlpatterns = [
     path('delete/<int:pk>/', ReportDeleteView.as_view(), name='delete_report'),
 
     path('status/<int:pk>/', ReportUpdateStatusView.as_view(), name='update_status'),
-
+    #path('api/report/<int:report_id>/', report_detail_api, name='report_detail_api'),
+    path('search/', report_search, name='report_search'),
 
     #path('add/', views.add_report, name='add_report'),
     #path('reports/', views.report_list, name='report_list'),
