@@ -43,9 +43,12 @@ INSTALLED_APPS = [
     'usermanagement',
     'dashboard',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -135,5 +138,13 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer'
-    ]
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+         'rest_framework_simplejwt.authentication.JWTAuthentication',
+         'rest_framework.authentication.SessionAuthentication',
+         'rest_framework.authentication.BasicAuthentication',
+    )
 }
+
+# CORS Settings
+CORS_ALLOW_ALL_ORIGINS = True # Mengizinkan semua domain untuk mengakses API

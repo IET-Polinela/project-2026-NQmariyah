@@ -19,8 +19,13 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.http import HttpResponse
 from usermanagement.views import CustomLoginView, RegisterView
+from usermanagement.api_views import RegisterView
 from dashboard.views import *
 from main_app.api_urls import urlpatterns as api_urls
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 def welcome(request):
     return HttpResponse("Selamat Datang")
@@ -39,4 +44,9 @@ urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('dashboard/api/data/', DashboardDataView.as_view(), name='dashboard_api'),
     path('api/', include(api_urls)),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/register/', RegisterView.as_view(), name='api_register'),
+    path('api-auth/', include('rest_framework.urls')),
+
 ]
