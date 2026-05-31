@@ -28,7 +28,7 @@ function setupLoginForm() {
             localStorage.setItem('access_token', response.data.access);
             localStorage.setItem('refresh_token', response.data.refresh);
             
-            alert('Berhasil Login!');
+            alert('Berhasil Login!' + localStorage.getItem('access_token'));
             
             // Arahkan otomatis ke dashboard
             window.location.hash = '#dashboard'; 

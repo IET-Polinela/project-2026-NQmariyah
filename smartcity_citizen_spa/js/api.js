@@ -6,8 +6,9 @@ async function requestAPI(endpoint, method = 'GET', bodyData = null){
 	};
 
 	const accessToken = localStorage.getItem('access_token');
+	console.log("Apakah ada? " + accessToken)
 	if(accessToken){
-		headers['Authorization'] = 'Bearer ${accessToken}';
+		headers['Authorization'] = `Bearer ${accessToken}`;
 	}
 
 	const config = {

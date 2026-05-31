@@ -109,6 +109,7 @@ const routes = {
                         </div>
                     </div>
                 </div>
+                <div id="paginationContainer" class="mt-4 d-flex justify-content-center"></div>
             </section>
         </div>
     `,
@@ -122,6 +123,11 @@ function handleRouting() {
     // Menghidupkan ulang Event Listener Form setelah DOM di-inject
     if (hash === '#login') setupLoginForm();
     if (hash === '#register') setupRegisterForm();
+
+    if (hash === '#dashboard') {
+        setupDashboardEvents();
+        loadDashboardData();
+    }
     
     updateNavbarUI();
 }
