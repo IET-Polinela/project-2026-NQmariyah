@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # UBAH 'frontend' DI BAWAH INI JIKA NAMA FOLDER SPA-NYA BERBEDA
-          path: './smarcity_citizen_spa' 
+          path: './smartcity_citizen_spa' 
 
       - name: Deploy to GitHub Pages
         id: deployment
