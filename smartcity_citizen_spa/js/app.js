@@ -22,7 +22,8 @@ async function loadSummaryStats() {
         const draftCount = myReports.filter(r => r.status === 'DRAFT').length;
         const reportedCount = myReports.filter(r => r.status === 'REPORTED').length;
         // Diproses meliputi status VERIFIED dan IN_PROGRESS
-        const inProgressCount = myReports.filter(r => r.status === 'VERIFIED' || r.status === 'IN_PROGRESS').length;
+        const verifiedCount = myReports.filter(r => r.status === 'VERIFIED').length;
+        const inProgressCount = myReports.filter(r.status === 'IN_PROGRESS').length;
         const resolvedCount = myReports.filter(r => r.status === 'RESOLVED').length;
 
         const summaryStats = document.getElementById('summaryStats');
@@ -37,7 +38,11 @@ async function loadSummaryStats() {
                     <span class="badge bg-warning text-dark rounded-pill">${reportedCount}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-gear-fill text-info me-2"></i>Diproses</span> 
+                    <span><i class="bi bi-send-fill text-info me-2"></i>Diverifikasi</span> 
+                    <span class="badge bg-warning text-dark rounded-pill">${verifiedCount}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-gear-fill text-sending me-2"></i>Diproses</span> 
                     <span class="badge bg-info text-dark rounded-pill">${inProgressCount}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
