@@ -16,8 +16,10 @@ class ReportSerializer(serializers.ModelSerializer):
         return "Warga Anonim"
 
     def get_reporter_name(self, obj):
-        if obj.reporter:
-            return obj.reporter.username
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            if obj.reporter == request.user:
+                return obj.reporter.username if obj.reporter else "Warga Anonim"
         return "Warga Anonim"
 
     def get_is_owner(self, obj):
