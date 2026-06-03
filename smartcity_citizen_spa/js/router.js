@@ -117,6 +117,23 @@ const routes = {
 
 function handleRouting() {
     const hash = window.location.hash || '';
+    const token = localStorage.getItem('access_token');
+
+    // Routing Auth Guard
+    if (token) {
+        // Jika sudah login dan mencoba mengakses halaman utama, login, atau register
+        if (hash === '' || hash === '#login' || hash === '#register') {
+            window.location.hash = '#dashboard';
+            return;
+        }
+    } else {
+        // Jika belum login dan mencoba mengakses dashboard
+        if (hash === '#dashboard') {
+            window.location.hash = '#login';
+            return;
+        }
+    }
+
     const contentDiv = document.getElementById('app-content');
     contentDiv.innerHTML = routes[hash] || routes[''];
 

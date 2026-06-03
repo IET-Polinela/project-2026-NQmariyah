@@ -319,9 +319,10 @@ function updateNavbarUI() {
     if (!navMenus) return;
 
     const token = localStorage.getItem('access_token');
+    const username = localStorage.getItem('username') || 'Warga';
     if (token) {
         navMenus.innerHTML = `
-            <span class="text-white me-3 small"><i class="bi bi-person-circle me-1"></i>Halo, Warga!</span>
+            <span class="text-white me-3 small"><i class="bi bi-person-circle me-1"></i>Halo, ${username}!</span>
             <button class="btn btn-outline-light btn-sm fw-bold" id="btnLogout"><i class="bi bi-box-arrow-right me-1"></i>Keluar</button>
         `;
         document.getElementById('btnLogout').addEventListener('click', function() {

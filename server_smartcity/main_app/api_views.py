@@ -22,7 +22,7 @@ class ReportViewSet(viewsets.ModelViewSet):
         if tab == 'my_reports':
             queryset = queryset.filter(reporter=user)
         elif tab == 'feed':
-            queryset = queryset.filter(~Q(reporter=user) & ~Q(status='DRAFT'))
+            queryset = queryset.filter(~Q(status='DRAFT'))
         else:
             # Default fallback for legacy endpoints or direct detail views
             queryset = queryset.filter(
