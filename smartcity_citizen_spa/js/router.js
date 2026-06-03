@@ -75,7 +75,7 @@ const routes = {
                                 <span class="badge bg-warning text-dark rounded-pill">0</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-send-fill text-info me-2"></i>Diverifkasi</span> 
+                                <span><i class="bi bi-send-fill text-primary me-2"></i>Diverifkasi</span> 
                                 <span class="badge bg-warning text-dark rounded-pill">0</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
