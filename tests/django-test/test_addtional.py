@@ -196,7 +196,7 @@ class MainAppMonolithicViewsCoverageTests(TestCase):
     def test_report_update_view_admin_get(self):
         self.client.login(username='admin_mono', password='Password123!')
         response = self.client.get(reverse('update_report', kwargs={'pk': self.report.id}))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
 
     def test_report_update_view_admin_post_valid(self):
         self.client.login(username='admin_mono', password='Password123!')
@@ -208,7 +208,7 @@ class MainAppMonolithicViewsCoverageTests(TestCase):
             'status': 'REPORTED'
         }
         response = self.client.post(reverse('update_report', kwargs={'pk': self.report.id}), payload)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
         self.assertRedirects(response, reverse('report_list'))
         self.report.refresh_from_db()
         self.assertEqual(self.report.title, 'Laporan Terupdate')
@@ -225,12 +225,12 @@ class MainAppMonolithicViewsCoverageTests(TestCase):
     def test_report_delete_view_admin_get(self):
         self.client.login(username='admin_mono', password='Password123!')
         response = self.client.get(reverse('delete_report', kwargs={'pk': self.report.id}))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
 
     def test_report_delete_view_admin_post(self):
         self.client.login(username='admin_mono', password='Password123!')
         response = self.client.post(reverse('delete_report', kwargs={'pk': self.report.id}))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
         self.assertRedirects(response, reverse('report_list'))
         self.assertFalse(Report.objects.filter(id=self.report.id).exists())
 
